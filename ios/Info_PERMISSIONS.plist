@@ -1,0 +1,10 @@
+<!--
+  PERMISSIONS iOS — À FUSIONNER dans ios/Runner/Info.plist
+  Ajoutez ces paires dans le <dict> principal de Info.plist
+-->
+<key>NSMicrophoneUsageDescription</key>
+<string>VoxLink utilise votre microphone pour les appels vocaux. Avec votre consentement, il peut enregistrer votre voix pour créer un modèle de synthèse vocale personnalisé utilisé lors des traductions d'appels.</string>
+<key>NSCameraUsageDescription</key>
+<string>VoxLink utilise votre caméra pour les appels vidéo avec vos contacts.</string>
+<key>NSPhotoLibraryUsageDescription</key>
+<string>VoxLink accède à votre galerie pour partager des photos et vidéos avec vos contacts.</string>

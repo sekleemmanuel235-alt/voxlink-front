@@ -1,0 +1,25 @@
+<!--
+  PERMISSIONS ANDROID — À FUSIONNER dans android/app/src/main/AndroidManifest.xml
+  Ajoutez ces lignes AVANT la balise <application> de votre AndroidManifest.xml
+-->
+
+<!-- Réseau (requis pour API + WebSocket) -->
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+<!-- Microphone (appels + clonage vocal) -->
+<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
+<!-- Caméra (appels vidéo) -->
+<uses-permission android:name="android.permission.CAMERA"/>
+
+<!-- Notifications (messages + appels entrants) -->
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+<uses-permission android:name="android.permission.VIBRATE"/>
+
+<!-- Appels en plein écran (appels entrants) -->
+<uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
+
+<!-- Stockage (galerie / partage médias) -->
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+<uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>

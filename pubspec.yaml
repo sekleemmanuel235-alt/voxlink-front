@@ -1,0 +1,37 @@
+name: voxlink_front
+description: VoxLink — Super-app de communication multilingue avec traduction IA et clonage vocal.
+version: 4.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.6
+
+  # ── Réseau ───────────────────────────────────────────────────────
+  http: ^1.2.1
+  web_socket_channel: ^3.0.1
+
+  # ── Persistance locale ───────────────────────────────────────────
+  shared_preferences: ^2.3.2
+
+  # ── Device ID matériel ──────────────────────────────────────────
+  device_info_plus: ^10.1.0
+
+  # ── Permissions (micro, caméra, galerie) ─────────────────────────
+  permission_handler: ^11.3.1
+
+  # ── Notifications locales ────────────────────────────────────────
+  flutter_local_notifications: ^17.2.2
+
+  # ── Enregistrement audio (clonage vocal) ─────────────────────────
+  flutter_sound: ^9.2.13
+  path_provider: ^2.1.3
+
+  # ── Paiements in-app RevenueCat ──────────────────────────────────
+  purchases_flutter: ^6.29.0
+
+flutter:
+  uses-material-design: true
