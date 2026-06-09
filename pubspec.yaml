@@ -3,7 +3,7 @@ description: VoxLink — Super-app de communication multilingue avec traduction 
 version: 4.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=2.19.6 <4.0.0'
 
 dependencies:
   flutter:
