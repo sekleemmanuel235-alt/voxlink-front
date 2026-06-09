@@ -24,8 +24,10 @@ jobs:
         with:
           flutter-version: '3.7.12'
 
-      - name: Get dependencies
-        run: flutter pub get
+      - name: Force Get Dependencies
+        run: |
+          sed -i 's/device_info_plus:.*/device_info_plus: any/g' pubspec.yaml
+          flutter pub get
 
       - name: Build APK
         run: flutter build apk --release
