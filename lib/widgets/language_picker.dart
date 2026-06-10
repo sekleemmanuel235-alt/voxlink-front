@@ -106,7 +106,7 @@ class _LanguageSearchSheetState extends State<_LanguageSearchSheet> {
             autofocus: true,
             decoration: InputDecoration(
               prefixIcon: const Icon(Icons.search, size: 18, color: Colors.grey),
-              hintText: 'Rechercher une langue... (${kSupportedLanguages.length} disponibles)',
+              hintText: 'Rechercher une langue... (' + kSupportedLanguages.length.toString() + ' disponibles)',
               hintStyle: const TextStyle(fontSize: 13),
               suffixIcon: _ctrl.text.isNotEmpty
                   ? IconButton(icon: const Icon(Icons.clear, size: 16),
