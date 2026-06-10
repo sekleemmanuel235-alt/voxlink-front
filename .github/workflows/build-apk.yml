@@ -26,10 +26,7 @@ jobs:
 
       - name: Create Missing Languages Model
         run: |
-          # Crée le dossier des modèles s'il n'existe pas sur le serveur
           mkdir -p lib/models
-          
-          # Injecte la classe AppLanguages proposée par Claude
           cat << 'INNER_EOF' > lib/models/languages.dart
           class AppLanguages {
             static List<Map<String, String>> get all => [
@@ -46,6 +43,11 @@ jobs:
             }
           }
           INNER_EOF
+
+      - name: Fix Package Versions
+        run: |
+          # Rétrograde shared_preferences pour correspondre à la version de Dart requise (3.3.4)
+          sed -i 's/shared_preferences:.*/shared_preferences: ^2.2.3/g' pubspec.yaml
 
       - name: Get dependencies
         run: flutter pub get
