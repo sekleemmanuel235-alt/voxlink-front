@@ -19,28 +19,15 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Flutter
+      - name: Set up Flutter (Dernière version stable)
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.6'
+          channel: 'stable'
 
-      - name: In-place Android V2 Migration
+      - name: Reconstruct Clean Modern Android Folder
         run: |
-          MANIFEST="android/app/src/main/AndroidManifest.xml"
-          if [ -f "$MANIFEST" ]; then
-            # Supprime l'ancienne balise incompatible
-            sed -i '/io.flutter.app.android.SplashScreenUntilFirstFrame/d' "$MANIFEST"
-            # Ajoute le marqueur V2 embedding officiel juste avant la fin de la balise application
-            if ! grep -q "flutterEmbedding" "$MANIFEST"; then
-              sed -i '/<\/application>/i \        <meta-data android:name="flutterEmbedding" android:value="2" />' "$MANIFEST"
-            fi
-          fi
-
-          # Met à jour l'importation dans le fichier MainActivity (qu'il soit en Java ou Kotlin)
-          MAIN_ACTIVITY=$(find android/app/src/main -name "MainActivity.*" -print -quit)
-          if [ -n "$MAIN_ACTIVITY" ]; then
-            sed -i 's/io.flutter.app.FlutterActivity/io.flutter.embedding.android.FlutterActivity/g' "$MAIN_ACTIVITY"
-          fi
+          rm -rf android
+          flutter create . --platforms=android
 
       - name: Create Missing Languages Model
         run: |
@@ -61,10 +48,6 @@ jobs:
             }
           }
           INNER_EOF
-
-      - name: Fix Package Versions
-        run: |
-          sed -i 's/shared_preferences:.*/shared_preferences: ^2.2.3/g' pubspec.yaml
 
       - name: Get dependencies
         run: flutter pub get
