@@ -245,3 +245,4 @@ class ApiService {
     } catch (_) {}
     await clearSession();
   }
+// Forcer le rafraîchissement du cache GitHub
