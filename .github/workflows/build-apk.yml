@@ -19,27 +19,36 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Flutter
+      - name: Set up Flutter (Version de transition)
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          flutter-version: '3.19.6'
 
-      - name: Reconstruct Modern Android Folder
+      - name: Create Missing Languages Model
         run: |
-          rm -rf android
-          flutter create . --platforms=android
+          # Crée le dossier des modèles s'il n'existe pas sur le serveur
+          mkdir -p lib/models
+          
+          # Injecte la classe AppLanguages proposée par Claude
+          cat << 'INNER_EOF' > lib/models/languages.dart
+          class AppLanguages {
+            static List<Map<String, String>> get all => [
+              {'code': 'fr', 'flag': '🇫🇷', 'label': 'Français'},
+              {'code': 'en', 'flag': '🇺🇸', 'label': 'English'},
+            ];
 
-      - name: Bypass Code Error
-        run: |
-          # Cette commande désactive la variable manquante AppLanguages pour laisser passer la compilation
-          FILE_PATH="lib/widgets/language_picker.dart"
-          if [ -f "$FILE_PATH" ]; then
-            sed -i "s/(\${AppLanguages.all.length} disponibles)//g" "$FILE_PATH"
-            sed -i "s/AppLanguages/'Text'/g" "$FILE_PATH"
-          fi
+            static Map<String, String>? findByCode(String code) {
+              try {
+                return all.firstWhere((l) => l['code'] == code);
+              } catch (_) {
+                return null;
+              }
+            }
+          }
+          INNER_EOF
 
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build APK
-        run: flutter build apk --release
+      - name: Build APK (Force V1 Compatibility)
+        run: flutter build apk --release --ignore-deprecation
