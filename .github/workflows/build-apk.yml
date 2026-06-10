@@ -19,10 +19,28 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Set up Flutter (Version de transition)
+      - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.19.6'
+
+      - name: In-place Android V2 Migration
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          if [ -f "$MANIFEST" ]; then
+            # Supprime l'ancienne balise incompatible
+            sed -i '/io.flutter.app.android.SplashScreenUntilFirstFrame/d' "$MANIFEST"
+            # Ajoute le marqueur V2 embedding officiel juste avant la fin de la balise application
+            if ! grep -q "flutterEmbedding" "$MANIFEST"; then
+              sed -i '/<\/application>/i \        <meta-data android:name="flutterEmbedding" android:value="2" />' "$MANIFEST"
+            fi
+          fi
+
+          # Met à jour l'importation dans le fichier MainActivity (qu'il soit en Java ou Kotlin)
+          MAIN_ACTIVITY=$(find android/app/src/main -name "MainActivity.*" -print -quit)
+          if [ -n "$MAIN_ACTIVITY" ]; then
+            sed -i 's/io.flutter.app.FlutterActivity/io.flutter.embedding.android.FlutterActivity/g' "$MAIN_ACTIVITY"
+          fi
 
       - name: Create Missing Languages Model
         run: |
@@ -46,11 +64,10 @@ jobs:
 
       - name: Fix Package Versions
         run: |
-          # Rétrograde shared_preferences pour correspondre à la version de Dart requise (3.3.4)
           sed -i 's/shared_preferences:.*/shared_preferences: ^2.2.3/g' pubspec.yaml
 
       - name: Get dependencies
         run: flutter pub get
 
-      - name: Build APK (Force V1 Compatibility)
-        run: flutter build apk --release --ignore-deprecation
+      - name: Build APK
+        run: flutter build apk --release
