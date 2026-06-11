@@ -246,3 +246,4 @@ class ApiService {
     await clearSession();
   }
 // Forcer le rafraîchissement du cache GitHub
+// Force sync git index

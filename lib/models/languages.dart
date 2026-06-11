@@ -64,3 +64,4 @@ AppLanguage? findLanguage(String code) {
     return kSupportedLanguages.firstWhere((l) => l.code == code);
   } catch (_) { return null; }
 }
+// Force sync git index
