@@ -272,3 +272,4 @@ class ApiService {
   }
 // Force Git refresh
 // FORCE_REFRESH_1781258113
+// Force rebuild post-reset
